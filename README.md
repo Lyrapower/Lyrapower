@@ -1,0 +1,16 @@
+### I build systems where a model's claim is never the evidence.
+
+**Results before theory.** Time-to-demo is 90 seconds: if it runs, you can see it.
+
+| Project | What it is |
+| --- | --- |
+| [voice-garden](https://github.com/USERNAME/voice-garden) | Open source. A 165,000-particle Three.js field that breathes with live audio. |
+| [quant-research-showcase](https://github.com/USERNAME/quant-research-showcase) | Paper-only factor research: lineage, IC gates, point-in-time data, shadow-ledger settlement. |
+| [rwa-onchain-reader-showcase](https://github.com/USERNAME/rwa-onchain-reader-showcase) | Tokenized-treasury supply, published only when two RPC witnesses agree bit-for-bit on the same block. |
+| [bounty-agent-showcase](https://github.com/USERNAME/bounty-agent-showcase) | An agent that submits only where the repo's written policy allows AI, and always says so. |
+
+**A hypothesis I'm testing.** In my setting, standard RAG distorts meaning across two hops. I key memory with protocol-level content hashes, so recall never depends on embedding-model compatibility.
+
+**Verification by default.** Local private key, signature, traceable record. Anyone doing compliance needs that same chain.
+
+**What's not public yet.** Happy to go deeper on tuning and codec details. I also have a more aggressive causal-patch approach that I haven't published.
