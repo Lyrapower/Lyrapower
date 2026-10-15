@@ -1,13 +1,18 @@
 ### I build systems where a model's claim is never the evidence.
 
-**Results before theory.** Time-to-demo is 90 seconds: if it runs, you can see it. [▶ Try Voice Garden in your browser](https://lyrapower.github.io/voice-garden/)
+**Results before theory.** Time-to-demo is 90 seconds: if it runs, you can see it.
 
-[![Voice Garden: 100,000 particles moving with music](https://raw.githubusercontent.com/Lyrapower/voice-garden/main/docs/demo.gif)](https://lyrapower.github.io/voice-garden/)
+<table>
+<tr>
+<td valign="top"><a href="https://lyrapower.github.io/voice-garden/"><img src="https://raw.githubusercontent.com/Lyrapower/voice-garden/main/docs/demo.gif" width="300" alt="Voice Garden: 100,000 particles turning as a gold, magenta and cyan spiral"></a><br><a href="https://lyrapower.github.io/voice-garden/"><b>▶ Voice Garden</b></a>: particles that move with your voice or music</td>
+<td valign="top"><a href="https://lyrapower.github.io/bodymap/"><img src="https://raw.githubusercontent.com/Lyrapower/bodymap/main/docs/demo.gif" width="140" alt="BodyMap: turning a 3D body and tapping the left shoulder to mark it"></a><br><a href="https://lyrapower.github.io/bodymap/"><b>▶ BodyMap</b></a>: tap where it hurts</td>
+</tr>
+</table>
 
 | Project | What it is |
 | --- | --- |
 | [bodymap](https://github.com/Lyrapower/bodymap) | Open source. Tap where it hurts on a 3D human body (Z-Anatomy: skin, muscle, bone) and keep a record a doctor can read. Records stay on your device. [Live demo](https://lyrapower.github.io/bodymap/) |
-| [voice-garden](https://github.com/Lyrapower/voice-garden) | Open source. A 100,000-particle Three.js field that moves with your voice or music, in the browser. [Live demo](https://lyrapower.github.io/voice-garden/) |
+| [voice-garden](https://github.com/Lyrapower/voice-garden) | Open source. A 100,000-particle Three.js spiral that turns and glows with your voice or music, in the browser. [Live demo](https://lyrapower.github.io/voice-garden/) |
 | [voice-garden-render](https://github.com/Lyrapower/voice-garden-render) | Open source. One command turns any song into a particle music video (MP4), frame-exact and offline. |
 | [quant-research-showcase](https://github.com/Lyrapower/quant-research-showcase) | Paper-only factor research: lineage, IC gates, point-in-time data, shadow-ledger settlement. |
 | [rwa-onchain-reader-showcase](https://github.com/Lyrapower/rwa-onchain-reader-showcase) | Tokenized-treasury supply, published only when two RPC witnesses agree bit-for-bit on the same block. |
