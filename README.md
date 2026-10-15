@@ -6,6 +6,7 @@
 
 | Project | What it is |
 | --- | --- |
+| [bodymap](https://github.com/Lyrapower/bodymap) | Open source. Tap where it hurts on a 3D human body (Z-Anatomy: skin, muscle, bone) and keep a record a doctor can read. Records stay on your device. [Live demo](https://lyrapower.github.io/bodymap/) |
 | [voice-garden](https://github.com/Lyrapower/voice-garden) | Open source. A 100,000-particle Three.js field that moves with your voice or music, in the browser. [Live demo](https://lyrapower.github.io/voice-garden/) |
 | [voice-garden-render](https://github.com/Lyrapower/voice-garden-render) | Open source. One command turns any song into a particle music video (MP4), frame-exact and offline. |
 | [quant-research-showcase](https://github.com/Lyrapower/quant-research-showcase) | Paper-only factor research: lineage, IC gates, point-in-time data, shadow-ledger settlement. |
