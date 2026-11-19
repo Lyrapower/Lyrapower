@@ -2,7 +2,7 @@
 
 **这个世界没有新手教程。两千年前的老玩家留下了七本攻略。**
 
-手机上最好看 · 不用注册，阅读进度只存在你自己的设备上
+**[▶ 在线打开](https://lyrapower.github.io/Lyrapower/earth-online-guide/)** · 手机上最好看 · 不用注册，阅读进度只存在你自己的设备上
 
 <p align="center">
 <img src="docs/home.jpg" width="190" alt="首页：玩家指南，七本攻略">

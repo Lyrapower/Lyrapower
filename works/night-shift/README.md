@@ -3,7 +3,7 @@
 **A short bilingual night shift at a rainy port signal box. Nothing is ever fully known; you decide anyway, and the morning carbon shows what you went on.**
 **雨夜港口信号楼里的一个夜班，中英双语。事情从来看不全，你照样得拍板；天亮时的底联会写下你凭的是什么。**
 
-**Download and open `dist/index.html` · 下载后打开 `dist/index.html`** · phone or desktop · one HTML file, no account
+**[▶ Play in the browser · 在线玩](https://lyrapower.github.io/Lyrapower/night-shift/)** · phone or desktop · one HTML file, no account
 
 <p align="center"><img src="docs/red_lamp.jpg" width="760" alt="The signal box at 04:38: you raise the red lamp and a milk train pulls up behind the fruit car"></p>
 
