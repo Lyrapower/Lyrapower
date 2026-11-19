@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#14110e">
+<title>蟒行记 · Python 夜行课 v3.0</title>
+<style>
+/*CSS*/
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="hud">
+    <div class="brand"><span class="seal">蟒</span><div class="bt"><b>蟒行记</b><span id="lessonTitle"></span></div></div>
+    <div class="stats">
+      <span id="pips" aria-label="灯"></span>
+      <span id="hearts" aria-label="命"></span>
+      <span class="stat"><span class="k">萤</span><b id="fireN">0</b></span>
+      <span class="stat"><span class="k">连日</span><b id="streakN">0</b></span>
+    </div>
+    <button id="btnReel" class="gbtn sm solid" aria-label="刷卡">刷</button>
+    <button id="btnMenu" class="gbtn sm" aria-label="菜单">卷 宗</button>
+  </header>
+  <main id="stage">
+    <canvas id="cv"></canvas>
+    <canvas id="gl"></canvas>
+    <canvas id="ov"></canvas>
+    <div id="title"><b></b><span></span></div>
+    <div id="toast"></div>
+    <div id="pad">
+      <div id="padMove"><span class="pk" data-k="left">‹</span><span class="pk" data-k="right">›</span></div>
+      <div id="padAct"><span class="pk s" id="padFire" data-k="fire">珠</span><span class="pk b" id="padJump" data-k="jump">跃</span></div>
+    </div>
+  </main>
+</div>
+<div id="reel" hidden>
+  <div class="rtop"><button id="rClose" class="lk">合 上</button><button id="rSkill" class="lk">技能谱</button><span class="sp"></span><span id="rCombo"></span><span class="stat"><span class="k">萤</span><b id="rFire">0</b></span></div>
+  <div id="rStage"></div>
+  <div id="rMap" hidden></div>
+  <div class="rbot"><span id="rHint"></span><span id="rCount"></span></div>
+</div>
+<div id="scrim" hidden><div id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+/*CARDS*/
+/*CONTENT*/
+</script>
+<script>
+/*GAME*/
+</script>
+</body>
+</html>

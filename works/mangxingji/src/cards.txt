@@ -1,0 +1,2263 @@
+## ref 变量与引用
+%%
+a = [1, 2]
+b = a
+b.append(3)
+print(a)
+= [1, 2, 3]
+? [1, 2] || [3]
+! b = a 只是多一个名字,指向同一个列表。
+%%
+a = [1, 2]
+b = a[:]
+b.append(3)
+print(a)
+= [1, 2]
+? [1, 2, 3] || [3]
+! a[:] 切出一份新列表,改 b 不影响 a。
+%%
+a = 5
+b = a
+b += 1
+print(a)
+= 5
+? 6 || 1
+! int 不可变,b += 1 让 b 指向新对象。
+%%
+x = [1, 2]
+y = [1, 2]
+print(x == y, x is y)
+= True False
+? True True || False False
+! == 比内容,is 比是不是同一个对象。
+%%
+a = [[0]] * 3
+a[0].append(1)
+print(a)
+= [[0, 1], [0, 1], [0, 1]]
+? [[0, 1], [0], [0]] || [[0], [0], [0], 1]
+! 乘出来的三格是同一个内层列表。
+%%
+a = [[1], [2]]
+b = a.copy()
+b[0].append(9)
+print(a)
+= [[1, 9], [2]]
+? [[1], [2]] || [[1], [2], 9]
+! copy() 只复制外层,内层列表仍是共用的。
+%%
+import copy
+a = [[1], [2]]
+b = copy.deepcopy(a)
+b[0].append(9)
+print(a)
+= [[1], [2]]
+? [[1, 9], [2]] || [[9], [2]]
+! deepcopy 连内层一起复制。
+%%
+a, b = 1, 2
+a, b = b, a
+print(a, b)
+= 2 1
+? 1 2 || 2 2
+! 右边先打包成元组,再一起解包,所以能直接交换。
+%%
+def f(x):
+    x.append(1)
+lst = []
+f(lst)
+print(lst)
+= [1]
+? [] || None
+! 传进去的是同一个列表,原地修改外面看得见。
+%%
+def f(x):
+    x = x + [1]
+lst = []
+f(lst)
+print(lst)
+= []
+? [1] || None
+! x + [1] 造了新列表并只改了函数里的名字。
+%%
+a = [1, 2, 3]
+b = a
+a = a + [4]
+print(b)
+= [1, 2, 3]
+? [1, 2, 3, 4] || [4]
+! a + [4] 是新列表;b 还指着旧的。
+%%
+a = [1, 2, 3]
+b = a
+a += [4]
+print(b)
+= [1, 2, 3, 4]
+? [1, 2, 3] || [4]
+! 列表的 += 是原地扩展,和 a = a + [4] 不同。
+%%
+s = 'abc'
+t = s
+t += 'd'
+print(s)
+= abc
+? abcd || d
+! 字符串不可变,+= 生成新串。
+%%
+x = None
+print(x is None, x == False)
+= True False
+? True True || False False
+! None 不等于 False;判空用 is None。
+
+## num 数字与运算
+%%
+print(7 // 2, 7 % 2, 7 / 2)
+= 3 1 3.5
+? 3 1 3 || 3.5 1 3.5
+! // 整除,% 取余,/ 永远得 float。
+%%
+print(-7 // 2)
+= -4
+? -3 || -3.5
+! 整除向下取整(往负无穷),不是向零。
+%%
+print(2 ** 10, 2 ** 0.5 > 1.41)
+= 1024 True
+? 20 True || 1024 False
+! ** 是乘方。
+%%
+print(0.1 + 0.2 == 0.3)
+= False
+? True
+! 二进制浮点存不准 0.1;比较用 math.isclose。
+%%
+import math
+print(math.isclose(0.1 + 0.2, 0.3))
+= True
+? False
+! 浮点比较的正确姿势。
+%%
+print(round(2.5), round(3.5))
+= 2 4
+? 3 4 || 2 3
+! Python 的 round 是"四舍六入五成双"。
+%%
+print(int('42') + 1, str(42) + '1')
+= 43 421
+? 43 43 || 421 421
+! 类型决定 + 是加法还是拼接。
+%%
+print(int(3.99), round(3.99))
+= 3 4
+? 4 4 || 3 3
+! int() 直接截断小数,不四舍五入。
+%%
+print(10 / 2)
+= 5.0
+? 5
+! / 的结果永远是 float。
+%%
+print(divmod(17, 5))
+= (3, 2)
+? (2, 3) || 3.4
+! 一次拿到商和余数。
+%%
+print(True + True)
+= 2
+? True || TypeError
+! bool 是 int 的子类,True 就是 1。
+%%
+print(f'{3.14159:.2f}')
+= 3.14
+? 3.1 || 3.14159
+! :.2f 保留两位小数。
+%%
+print(f'{1234567:,}')
+= 1,234,567
+? 1234567 || 1.234.567
+! :, 加千分位。
+%%
+print(f'{0.256:.1%}')
+= 25.6%
+? 0.3% || 25.6
+! % 格式先乘 100 再加百分号。
+%%
+print(float('inf') > 10 ** 100)
+= True
+? False || OverflowError
+! inf 比任何有限数都大。
+%%
+print(bool(0), bool(0.0), bool(-1))
+= False False True
+? False False False || True True True
+! 只有零值是假,负数也是真。
+%%
+print(1_000_000 + 1)
+= 1000001
+? SyntaxError || 1_000_001
+! 数字里的下划线只是给人看的分隔符。
+%%
+print(abs(-3), max(1, 5, 2), sum([1, 2, 3]))
+= 3 5 6
+? -3 5 6 || 3 2 6
+! 三个最常用的内置函数。
+%%
+print(int('3.5'))
+= ValueError
+? 3 || 4
+! int() 不吃带小数点的字符串;先 float 再 int。
+%%
+print(type(1 / 1).__name__, type(1 // 1).__name__)
+= float int
+? int int || float float
+! / 得 float,// 两边都是 int 时得 int。
+
+## str 字符串
+%%
+print('a,b,,c'.split(','))
+= ['a', 'b', '', 'c']
+? ['a', 'b', 'c'] || ['a', 'b', None, 'c']
+! 指定分隔符时,连续分隔符之间会留空串。
+%%
+print(' a  b '.split())
+= ['a', 'b']
+? ['', 'a', '', 'b', ''] || ['a', '', 'b']
+! 不带参数的 split 按任意空白切并丢掉空串。
+%%
+print('-'.join(['a', 'b', 'c']))
+= a-b-c
+? -a-b-c- || abc
+! 分隔符.join(列表)。
+%%
+print('hello'.replace('l', 'L', 1))
+= heLlo
+? heLLo || hello
+! 第三个参数限制替换次数。
+%%
+print('abc'[::-1])
+= cba
+? abc || c
+! 步长 -1 就是反转。
+%%
+print('ab' * 3)
+= ababab
+? ab3 || TypeError
+! 字符串乘整数是重复。
+%%
+print('py' in 'python', 'Py' in 'python')
+= True False
+? True True || False False
+! in 找子串,区分大小写。
+%%
+print('abc'.find('z'), 'abc'.find('c'))
+= -1 2
+? None 2 || ValueError
+! find 找不到返回 -1,不报错。
+%%
+print('abc'.index('z'))
+= ValueError
+? -1 || None
+! index 找不到会抛错,find 不会。
+%%
+print(len('你好'), len('你好'.encode('utf-8')))
+= 2 6
+? 2 2 || 6 6
+! len 数字符;编码成 utf-8 后每个汉字 3 字节。
+%%
+print('3' + '4', 3 + 4)
+= 34 7
+? 7 7 || 34 34
+! 字符串相加是拼接。
+%%
+print('3' + 4)
+= TypeError
+? 7 || 34
+! Python 不会替你把数字转成字符串。
+%%
+print(r'a\nb', len(r'a\nb'))
+= a\nb 4
+? a\nb 3 || a b 3
+! r'' 里反斜杠不转义,\n 是两个字符。
+%%
+print('abc'.startswith(('x', 'a')))
+= True
+? False || TypeError
+! startswith 可以传元组,任一命中即可。
+%%
+print(f'{7:03d}')
+= 007
+? 7 || 700
+! 03d:宽度 3,不足补零。
+%%
+print('a b c'.partition(' '))
+= ('a', ' ', 'b c')
+? ['a', 'b', 'c'] || ('a', 'b c')
+! partition 只切第一刀,返回三段。
+%%
+print('a.b.c'.rsplit('.', 1))
+= ['a.b', 'c']
+? ['a', 'b.c'] || ['a', 'b', 'c']
+! rsplit 从右边切,常用来取扩展名。
+%%
+s = 'hello'
+print(s[1:3], s[-1], s[:2])
+= el o he
+? ell o he || el l hel
+! 切片含头不含尾;-1 是最后一个。
+%%
+n = 'Ada'
+print(f'{n!r} has {len(n)}')
+= 'Ada' has 3
+? Ada has 3 || n has 3
+! !r 用 repr,带引号;花括号里可以写表达式。
+%%
+x = 3
+print(f'{x=}')
+= x=3
+? 3 || x
+! f'{x=}' 同时打印名字和值,调试利器。
+%%
+print('Hello World'.lower().split())
+= ['hello', 'world']
+? ['Hello', 'World'] || hello world
+! 字符串方法可以链着调,每步都返回新串。
+%%
+print('  x '.strip() + '|', 'xxhixx'.strip('x'))
+= x| hi
+? x | hi ||   x | xxhixx
+! strip 去两端;可指定要去掉的字符。
+%%
+print('42'.isdigit(), '4.2'.isdigit(), ''.isdigit())
+= True False False
+? True True False || True False True
+! isdigit 不认小数点,空串也是 False。
+%%
+print('a' < 'b', 'B' < 'a', 'apple' < 'b')
+= True True True
+? True False True || True False False
+! 字符串按码点逐位比,大写字母排在小写前。
+
+## list 列表
+%%
+a = [3, 1, 2]
+b = a.sort()
+print(b)
+= None
+? [1, 2, 3] || [3, 1, 2]
+! sort() 原地排序并返回 None。
+%%
+a = [3, 1, 2]
+print(sorted(a), a)
+= [1, 2, 3] [3, 1, 2]
+? [1, 2, 3] [1, 2, 3] || None [1, 2, 3]
+! sorted 返回新列表,不动原来的。
+%%
+a = [1, 2, 3]
+a.append([4, 5])
+print(len(a))
+= 4
+? 5 || 3
+! append 把整个列表当成一个元素塞进去。
+%%
+a = [1, 2, 3]
+a.extend([4, 5])
+print(len(a))
+= 5
+? 4 || 3
+! extend 把元素逐个接上。
+%%
+a = [1, 2, 3]
+print(a.pop(), a)
+= 3 [1, 2]
+? 1 [2, 3] || 3 [1, 2, 3]
+! pop 默认弹最后一个并返回它。
+%%
+a = [1, 2, 3]
+a.insert(0, 9)
+print(a)
+= [9, 1, 2, 3]
+? [1, 2, 3, 9] || [0, 9, 1, 2, 3]
+! insert(位置, 值)。
+%%
+a = [1, 2, 2, 3]
+a.remove(2)
+print(a)
+= [1, 2, 3]
+? [1, 3] || [1, 2, 2]
+! remove 只删第一个匹配的。
+%%
+print([1, 2] + [3], [0] * 3)
+= [1, 2, 3] [0, 0, 0]
+? [1, 2, 3] [0, 3] || [4, 2] [0]
+! 列表 + 是拼接,* 是重复。
+%%
+a = [1, 2, 3]
+print(a[5])
+= IndexError
+? None || 3
+! 下标越界直接报错。
+%%
+a = [1, 2, 3]
+print(a[1:5])
+= [2, 3]
+? IndexError || [2, 3, None, None]
+! 切片越界不报错,有多少给多少。
+%%
+print(sorted(['b', 'A', 'c']))
+= ['A', 'b', 'c']
+? ['b', 'A', 'c'] || ['A', 'c', 'b']
+! 默认按码点,大写排前;要忽略大小写用 key=str.lower。
+%%
+print(sorted(['bb', 'a', 'ccc'], key=len, reverse=True))
+= ['ccc', 'bb', 'a']
+? ['a', 'bb', 'ccc'] || ['ccc', 'a', 'bb']
+! key 决定按什么排,reverse 倒序。
+%%
+a = [1, 2, 3]
+print(a.index(2), 5 in a)
+= 1 False
+? 2 False || 1 True
+! index 给位置,in 判断在不在。
+%%
+a = [1, 2, 3]
+del a[0]
+print(a)
+= [2, 3]
+? [1, 2] || [0, 2, 3]
+! del 按位置删。
+%%
+a = [1, 2, 3]
+a[1:2] = [8, 9]
+print(a)
+= [1, 8, 9, 3]
+? [1, [8, 9], 3] || [1, 8, 9]
+! 给切片赋值可以改变长度。
+%%
+m = [[1, 2], [3, 4]]
+print(m[1][0], [r[0] for r in m])
+= 3 [1, 3]
+? 2 [1, 2] || 3 [1, 2]
+! 先行后列;取一列用推导式。
+%%
+a = [1, 2, 3]
+for x in a:
+    x *= 2
+print(a)
+= [1, 2, 3]
+? [2, 4, 6] || [1, 2, 3, 2, 4, 6]
+! 循环变量只是个名字,改它不改列表。
+%%
+a = [1, 2, 3]
+for i in range(len(a)):
+    a[i] *= 2
+print(a)
+= [2, 4, 6]
+? [1, 2, 3] || [2, 2, 2]
+! 按下标赋值才是真的改列表。
+%%
+a = [1, 2, 3, 4]
+for x in a:
+    if x % 2 == 0:
+        a.remove(x)
+print(a)
+= [1, 3]
+? [1, 2, 3] || [1, 3, 4]
+! 这次碰巧对了;边遍历边删会跳元素,别依赖它。
+%%
+a = [2, 4, 5]
+for x in a:
+    if x % 2 == 0:
+        a.remove(x)
+print(a)
+= [4, 5]
+? [5] || [2, 5]
+! 删掉 2 后 4 滑到位置 0,被游标跳过。
+%%
+print(list(reversed([1, 2, 3])), [4, 2, 8].count(2))
+= [3, 2, 1] 1
+? [1, 2, 3] 1 || [3, 2, 1] 2
+! reversed 给迭代器,要 list() 才看得见。
+
+## slice 切片
+%%
+print('python'[::2])
+= pto
+? pyt || yhn
+! 步长 2:每隔一个取一个。
+%%
+a = [0, 1, 2, 3, 4]
+print(a[-2:])
+= [3, 4]
+? [4] || [0, 1, 2]
+! 负数从尾部数;-2: 是最后两个。
+%%
+a = [0, 1, 2, 3, 4]
+print(a[:-1])
+= [0, 1, 2, 3]
+? [4] || [0, 1, 2, 3, 4]
+! :-1 去掉最后一个。
+%%
+a = [0, 1, 2, 3, 4]
+print(a[1:4:2])
+= [1, 3]
+? [1, 2, 3] || [1, 3, 4]
+! 起:止:步,止不含。
+%%
+a = [0, 1, 2, 3, 4]
+print(a[10:], a[::-2])
+= [] [4, 2, 0]
+? IndexError || [] [4, 3]
+! 越界切片给空列表;负步长倒着走。
+%%
+a = [0, 1, 2, 3, 4]
+a[:2] = []
+print(a)
+= [2, 3, 4]
+? [[], 2, 3, 4] || [0, 1, 2, 3, 4]
+! 把切片赋成空就是删除这一段。
+%%
+s = '2026-11-10'
+print(s[:4], s[5:7])
+= 2026 11
+? 2026 -1 || 2026 11-
+! 定长字符串用切片取字段最直接。
+%%
+a = [0, 1, 2]
+b = a[:]
+print(b is a, b == a)
+= False True
+? True True || False False
+! 整段切片是浅拷贝。
+%%
+print('abcdef'[-3:-1])
+= de
+? def || ed
+! -3 到 -1,不含 -1。
+%%
+a = [0, 1, 2, 3, 4, 5]
+print(a[::3], a[1::3])
+= [0, 3] [1, 4]
+? [0, 3] [1, 4, 5] || [0, 1, 2] [1, 2, 3]
+! 分片取样:从哪开始,每隔几个。
+
+## dict 字典
+%%
+d = {'a': 1}
+print(d.get('b'), d.get('b', 0))
+= None 0
+? KeyError || 0 0
+! get 取不到给 None 或你指定的默认值。
+%%
+d = {'a': 1}
+print(d['b'])
+= KeyError
+? None || 0
+! 方括号取不存在的键会抛错。
+%%
+d = {'a': 1, 'b': 2}
+print(list(d))
+= ['a', 'b']
+? [1, 2] || [('a', 1), ('b', 2)]
+! 遍历字典得到的是键,且保持插入顺序。
+%%
+d = {'a': 1, 'b': 2}
+print([k + str(v) for k, v in d.items()])
+= ['a1', 'b2']
+? ['a', 'b'] || [('a', 1), ('b', 2)]
+! items() 同时给键和值。
+%%
+d = {}
+d.setdefault('x', []).append(1)
+print(d)
+= {'x': [1]}
+? {} || {'x': []}
+! setdefault:没有就建,然后返回那个值。
+%%
+d = {'a': 1}
+d.update({'a': 2, 'b': 3})
+print(d)
+= {'a': 2, 'b': 3}
+? {'a': 1, 'b': 3} || {'a': 1}
+! update 里同名键以后来的为准。
+%%
+a = {'x': 1}
+b = {'x': 2, 'y': 3}
+print(a | b)
+= {'x': 2, 'y': 3}
+? {'x': 1, 'y': 3} || TypeError
+! | 合并字典,右边覆盖左边。
+%%
+d = {'a': 1}
+print('a' in d, 1 in d)
+= True False
+? True True || False True
+! in 只查键,不查值。
+%%
+d = {'b': 2, 'a': 1}
+print(sorted(d), max(d, key=d.get))
+= ['a', 'b'] b
+? ['b', 'a'] b || ['a', 'b'] a
+! max(d, key=d.get):值最大的那个键。
+%%
+d = {'a': 1}
+print(d.pop('a'), d)
+= 1 {}
+? a {} || 1 {'a': 1}
+! pop 取走并删除。
+%%
+d = {[1, 2]: 'x'}
+= TypeError
+? KeyError || 正常运行
+! 列表可变、不可哈希,不能当键。
+%%
+d = {(1, 2): 'x'}
+print(d[(1, 2)])
+= x
+? TypeError || KeyError
+! 元组不可变,可以当键。
+%%
+print({k: v for k, v in zip('ab', [1, 2])})
+= {'a': 1, 'b': 2}
+? {'ab': [1, 2]} || [('a', 1), ('b', 2)]
+! zip 配对后用字典推导式。
+%%
+d = {'a': {'b': 1}}
+print(d.get('z', {}).get('b'))
+= None
+? KeyError || 1
+! 链式 get 给个空字典兜底,嵌套取值不炸。
+%%
+print(len({'a': 1, 'a': 2}))
+= 1
+? 2 || SyntaxError
+! 重复的键后者覆盖前者。
+%%
+d = {'a': 1, 'b': 2}
+print({v: k for k, v in d.items()})
+= {1: 'a', 2: 'b'}
+? {'a': 1, 'b': 2} || {1: 'b', 2: 'a'}
+! 反转键值的惯用写法。
+%%
+from collections import Counter
+print(Counter('aab').most_common(1))
+= [('a', 2)]
+? ('a', 2) || {'a': 2}
+! Counter 计数,most_common 给排行榜。
+%%
+from collections import defaultdict
+d = defaultdict(int)
+d['x'] += 1
+print(d['x'], d['y'])
+= 1 0
+? 1 KeyError || 1 None
+! defaultdict 取不存在的键时自动用工厂造一个。
+%%
+d = {'a': 1, 'b': 2}
+for k in d:
+    del d[k]
+= RuntimeError
+? 正常运行 || KeyError
+! 遍历字典时不能改它的大小;先 list(d) 再删。
+%%
+d = dict(a=1)
+d['a'] += 1
+d['b'] = d.get('b', 0) + 1
+print(d)
+= {'a': 2, 'b': 1}
+? {'a': 2} || KeyError
+! get(k, 0) + 1 是不用 defaultdict 时的计数写法。
+
+## set 集合与元组
+%%
+print(len({1, 2, 2, 3}))
+= 3
+? 4 || 2
+! 集合自动去重。
+%%
+print({1, 2} & {2, 3}, {1, 2} | {2, 3})
+= {2} {1, 2, 3}
+? {1, 2, 3} {2} || {2} {1, 2, 2, 3}
+! & 交集,| 并集。
+%%
+print({1, 2, 3} - {2}, {1, 2} ^ {2, 3})
+= {1, 3} {1, 3}
+? {1, 3} {2} || {2} {1, 3}
+! - 差集;^ 对称差(只在一边的)。
+%%
+print(type({}).__name__, type(set()).__name__)
+= dict set
+? set set || dict dict
+! {} 是空字典;空集合只能写 set()。
+%%
+t = (1, 2)
+t[0] = 9
+= TypeError
+? (9, 2) || IndexError
+! 元组不可变。
+%%
+t = (1)
+print(type(t).__name__, type((1,)).__name__)
+= int tuple
+? tuple tuple || int int
+! 单元素元组必须带逗号。
+%%
+t = ([1], 2)
+t[0].append(3)
+print(t)
+= ([1, 3], 2)
+? TypeError || ([1], 2)
+! 元组不可变,但里面装的列表照样能改。
+%%
+a, *b = [1, 2, 3]
+print(a, b)
+= 1 [2, 3]
+? 1 2 || [1] [2, 3]
+! 星号解包接住剩下的。
+%%
+print(sorted(set('banana')))
+= ['a', 'b', 'n']
+? ['b', 'a', 'n'] || ['a', 'a', 'a', 'b', 'n', 'n']
+! 去重再排序。
+%%
+print(list(dict.fromkeys([3, 1, 3, 2, 1])))
+= [3, 1, 2]
+? [1, 2, 3] || [3, 1, 3, 2, 1]
+! 保持原顺序去重的惯用写法。
+%%
+x = 1, 2
+print(x)
+= (1, 2)
+? 1 2 || [1, 2]
+! 逗号才是造元组的,括号可有可无。
+%%
+s = {1}
+s.add(1)
+s.add(2)
+print(len(s))
+= 2
+? 3 || 1
+! 重复 add 没有效果。
+%%
+print((1, 2) < (1, 3), (2,) < (1, 9))
+= True False
+? True True || False False
+! 元组逐位比较,先比第一位。
+%%
+print({1, 2} <= {1, 2, 3}, 3 in {1, 2})
+= True False
+? False False || True True
+! <= 判子集。
+%%
+s = {[1, 2]}
+= TypeError
+? {[1, 2]} || ValueError
+! 集合元素必须可哈希,列表不行。
+
+## truth 条件与真值
+%%
+print(bool([]), bool([0]), bool(''))
+= False True False
+? False False False || True True False
+! 空容器为假;[0] 不空,所以是真。
+%%
+print(1 < 2 < 3, 3 > 2 > 2)
+= True False
+? True True || False False
+! 比较可以连写,等价于用 and 连接。
+%%
+print(0 or 'x', 1 and 'y')
+= x y
+? True True || 0 1
+! or/and 返回的是操作数本身,不是 True/False。
+%%
+print(None or 0 or [])
+= []
+? None || False
+! 全是假值时,or 返回最后一个。
+%%
+x = 0
+y = x or 10
+print(y)
+= 10
+? 0 || True
+! 用 or 给默认值会把合法的 0 也替换掉。
+%%
+x = 5
+print('big' if x > 3 else 'small')
+= big
+? small || True
+! 条件表达式:A if 条件 else B。
+%%
+print(not None, not 'a')
+= True False
+? False False || True True
+! not 总是返回 bool。
+%%
+print(1 == 1.0, '1' == 1)
+= True False
+? True True || False False
+! 数值跨类型可以相等;字符串和数字永不相等。
+%%
+print(any([0, '', 3]), all([1, 0]))
+= True False
+? False False || True True
+! any 有一个真就真;all 要全真。
+%%
+print(all([]), any([]))
+= True False
+? False False || True True
+! 空的 all 是 True——"没有反例"。
+%%
+x = 404
+match x:
+    case 200:
+        r = 'ok'
+    case 404:
+        r = 'nf'
+    case _:
+        r = '?'
+print(r)
+= nf
+? ? || ok
+! match/case 逐个比对,_ 是兜底。
+%%
+if (n := len('abc')) > 2:
+    print(n)
+= 3
+? True || abc
+! := 在表达式里顺手赋值。
+%%
+print(None == False, bool(None))
+= False False
+? True False || False True
+! None 是假值,但不等于 False。
+%%
+print(3 if None else 4, [] or 'empty')
+= 4 empty
+? 3 [] || 4 []
+! 假值走 else / or 的右边。
+%%
+x = []
+if x is not None:
+    print('A')
+if x:
+    print('B')
+= A
+? A ⏎ B || B
+! 空列表不是 None,但它是假值。
+%%
+print(isinstance(True, int), True == 1)
+= True True
+? False True || False False
+! bool 是 int 的子类。
+
+## loop 循环
+%%
+print(list(range(3)), list(range(1, 4)))
+= [0, 1, 2] [1, 2, 3]
+? [1, 2, 3] [1, 2, 3, 4] || [0, 1, 2, 3] [1, 2, 3]
+! range 含头不含尾。
+%%
+print(list(range(10, 0, -3)))
+= [10, 7, 4, 1]
+? [10, 7, 4] || [10, 7, 4, 1, -2]
+! 第三个参数是步长,可以为负。
+%%
+print(list(enumerate('ab', 1)))
+= [(1, 'a'), (2, 'b')]
+? [(0, 'a'), (1, 'b')] || [('a', 1), ('b', 2)]
+! enumerate 给(序号, 元素),可指定起始。
+%%
+print(list(zip([1, 2, 3], 'ab')))
+= [(1, 'a'), (2, 'b')]
+? [(1, 'a'), (2, 'b'), (3, None)] || ValueError
+! zip 以最短的为准,多出来的悄悄丢掉。
+%%
+for i in range(3):
+    if i == 5:
+        break
+else:
+    print('no break')
+= no break
+? 什么都不输出 || SyntaxError
+! for 的 else:循环没被 break 才执行。
+%%
+total = 0
+for i in range(5):
+    if i % 2:
+        continue
+    total += i
+print(total)
+= 6
+? 4 || 10
+! continue 跳过奇数,加的是 0+2+4。
+%%
+for i in range(3):
+    pass
+print(i)
+= 2
+? 3 || NameError
+! 循环变量在循环结束后还活着,停在最后一个值。
+%%
+n = 0
+for i in range(3):
+    for j in range(3):
+        if j == 1:
+            break
+        n += 1
+print(n)
+= 3
+? 1 || 9
+! break 只跳出最里面那层。
+%%
+print(sum(i * i for i in range(4)))
+= 14
+? 9 || 30
+! 0+1+4+9;生成器表达式直接喂给 sum。
+%%
+print(list(zip(*[(1, 'a'), (2, 'b')])))
+= [(1, 2), ('a', 'b')]
+? [(1, 'a'), (2, 'b')] || [1, 2, 'a', 'b']
+! zip(*行) 把行转成列。
+%%
+it = iter([1, 2])
+next(it)
+print(list(it))
+= [2]
+? [1, 2] || []
+! 迭代器只往前走,走过的不回来。
+%%
+i = 0
+while i < 3:
+    i += 1
+print(i)
+= 3
+? 2 || 4
+! 条件不成立时才退出,此时 i 已经是 3。
+%%
+d = {'a': 1, 'b': 2}
+for k, v in sorted(d.items(), key=lambda kv: -kv[1]):
+    print(k, end=' ')
+= b a
+? a b || 2 1
+! 按值倒序遍历字典。
+%%
+print(len(range(5, 5)), list(range(0)))
+= 0 []
+? 1 [0] || 5 []
+! 空 range 不报错,循环一次也不跑。
+%%
+names = ['a', 'b']
+for i, n in enumerate(names):
+    names[i] = n.upper()
+print(names)
+= ['A', 'B']
+? ['a', 'b'] || ['A', 'b']
+! 要改列表,用 enumerate 拿下标。
+
+## comp 推导式与生成器
+%%
+print([x * 2 for x in range(3)])
+= [0, 2, 4]
+? [2, 4, 6] || [0, 1, 2, 0, 1, 2]
+! [表达式 for 变量 in 可迭代]。
+%%
+print([x for x in range(6) if x % 2])
+= [1, 3, 5]
+? [0, 2, 4] || [1, 1, 1]
+! 末尾的 if 是过滤;x % 2 为真即奇数。
+%%
+print([x if x > 1 else 0 for x in range(4)])
+= [0, 0, 2, 3]
+? [2, 3] || [0, 1, 2, 3]
+! 前面的 if/else 是取值,不过滤。
+%%
+print({x % 2 for x in range(5)})
+= {0, 1}
+? [0, 1, 0, 1, 0] || {0, 1, 0, 1, 0}
+! 花括号是集合推导式,自动去重。
+%%
+print([(a, b) for a in 'xy' for b in (1, 2)][1])
+= ('x', 2)
+? ('y', 1) || ('x', 1)
+! 多个 for 从左到右嵌套,右边转得快。
+%%
+g = (x for x in range(3))
+print(sum(g), sum(g))
+= 3 0
+? 3 3 || 0 0
+! 生成器只能走一遍,第二次已经空了。
+%%
+print(type((x for x in [])).__name__, type([x for x in []]).__name__)
+= generator list
+? tuple list || list list
+! 圆括号得到的是生成器,不是元组。
+%%
+m = [[1, 2], [3, 4]]
+print([x for r in m for x in r])
+= [1, 2, 3, 4]
+? [[1, 2], [3, 4]] || [1, 3, 2, 4]
+! 拍平二维列表。
+%%
+print(list(map(str, [1, 2])), list(filter(None, [0, 1, '', 2])))
+= ['1', '2'] [1, 2]
+? [1, 2] [1, 2] || ['1', '2'] [0, 1, '', 2]
+! filter(None, ...) 留下真值。
+%%
+print(max(len(w) for w in ['aa', 'b', 'cccc']))
+= 4
+? cccc || 3
+! 取的是长度的最大值;要词本身用 max(words, key=len)。
+%%
+x = 10
+r = [x for x in range(3)]
+print(x)
+= 10
+? 2 || 3
+! 推导式有自己的作用域,不污染外面的 x。
+%%
+print({w: len(w) for w in ['hi', 'yo'] if w != 'yo'})
+= {'hi': 2}
+? {'hi': 2, 'yo': 2} || ['hi']
+! 字典推导式同样可以带过滤。
+%%
+sq = [n * n for n in range(1, 6)]
+print(sq[-1], sum(sq))
+= 25 55
+? 36 91 || 25 30
+! range(1, 6) 是 1 到 5。
+%%
+words = ['a', 'bb', 'a']
+print(len(words), len(set(words)), len([w for w in words if w == 'a']))
+= 3 2 2
+? 3 2 1 || 3 3 2
+! 三种数法:总数、去重数、条件计数。
+
+## func 函数
+%%
+def f(a, b=2):
+    return a + b
+print(f(1), f(1, b=5))
+= 3 6
+? 3 3 || 1 6
+! 默认参数可以被关键字覆盖。
+%%
+def f():
+    pass
+print(f())
+= None
+? 什么都不输出 || NameError
+! 没有 return 的函数返回 None。
+%%
+def f(x, acc=[]):
+    acc.append(x)
+    return acc
+f(1)
+print(f(2))
+= [1, 2]
+? [2] || [1]
+! 默认值只在定义时创建一次,可变默认值会跨调用累积。
+%%
+def f(x, acc=None):
+    acc = acc or []
+    acc.append(x)
+    return acc
+f(1)
+print(f(2))
+= [2]
+? [1, 2] || None
+! 可变默认值的正确写法:None 作哨兵。
+%%
+def f(*args, **kw):
+    return len(args), sorted(kw)
+print(f(1, 2, a=3))
+= (2, ['a'])
+? (3, []) || (2, [3])
+! *args 收位置参数,**kw 收关键字参数。
+%%
+def f(a, b):
+    return a - b
+print(f(b=1, a=5), f(*[5, 1]), f(**{'a': 5, 'b': 1}))
+= 4 4 4
+? -4 4 4 || 4 4 -4
+! 关键字、* 解列表、** 解字典,三种传法等价。
+%%
+x = 1
+def f():
+    x = 2
+f()
+print(x)
+= 1
+? 2 || None
+! 函数里赋值造的是局部变量。
+%%
+x = 1
+def f():
+    global x
+    x = 2
+f()
+print(x)
+= 2
+? 1 || NameError
+! global 声明后才改得到模块级变量。
+%%
+x = 1
+def f():
+    print(x)
+    x = 2
+f()
+= UnboundLocalError
+? 1 || 2
+! 函数里只要有赋值,x 整个函数内都算局部;先读就炸。
+%%
+fs = [lambda: i for i in range(3)]
+print([f() for f in fs])
+= [2, 2, 2]
+? [0, 1, 2] || [0, 0, 0]
+! 闭包记的是变量不是值;调用时 i 已经是 2。
+%%
+fs = [lambda i=i: i for i in range(3)]
+print([f() for f in fs])
+= [0, 1, 2]
+? [2, 2, 2] || TypeError
+! 用默认参数把当时的值钉住。
+%%
+def f():
+    return 1, 2
+a, b = f()
+print(type(f()).__name__, b)
+= tuple 2
+? list 2 || int 2
+! "返回多个值"其实是返回一个元组。
+%%
+print((lambda x, y: x * y)(3, 4))
+= 12
+? 7 || (3, 4)
+! lambda 是没有名字的小函数。
+%%
+def f(a, /, b, *, c):
+    return a + b + c
+print(f(1, 2, c=3))
+= 6
+? TypeError || 3
+! / 之前只能按位置,* 之后只能按关键字。
+%%
+def f(a, /, b, *, c):
+    return a + b + c
+print(f(1, 2, 3))
+= TypeError
+? 6 || 3
+! c 在 * 之后,必须写 c=3。
+%%
+def outer():
+    n = 0
+    def inc():
+        nonlocal n
+        n += 1
+        return n
+    return inc
+c = outer()
+c()
+print(c())
+= 2
+? 1 || UnboundLocalError
+! 闭包记住了 n;nonlocal 让内层能改它。
+%%
+def f(n):
+    return 1 if n <= 1 else n * f(n - 1)
+print(f(5))
+= 120
+? 15 || 24
+! 递归:5×4×3×2×1。
+%%
+def f(a, b):
+    return a
+f(1)
+= TypeError
+? 1 || None
+! 少传必填参数直接报错。
+%%
+def f(x: int) -> str:
+    return x
+print(f(5))
+= 5
+? '5' || TypeError
+! 类型标注只是注释,运行时不检查也不转换。
+%%
+print(sorted([(1, 'b'), (2, 'a')], key=lambda t: t[1]))
+= [(2, 'a'), (1, 'b')]
+? [(1, 'b'), (2, 'a')] || ['a', 'b']
+! key 函数决定比较什么。
+%%
+def f(x):
+    return x * 2
+g = f
+print(g(3), g.__name__)
+= 6 f
+? 6 g || TypeError
+! 函数是对象,可以赋给别的名字、当参数传。
+%%
+def f():
+    return
+    print('never')
+print(f())
+= None
+? never || never ⏎ None
+! return 之后的代码不会执行。
+
+## cls 类与对象
+%%
+class A:
+    def __init__(self, x):
+        self.x = x
+a = A(3)
+print(a.x)
+= 3
+? None || AttributeError
+! __init__ 在创建实例时自动调用。
+%%
+class A:
+    n = 0
+a = A()
+b = A()
+a.n = 5
+print(b.n, A.n)
+= 0 0
+? 5 5 || 5 0
+! 给实例赋值是在实例上新建属性,不动类属性。
+%%
+class A:
+    items = []
+a = A()
+b = A()
+a.items.append(1)
+print(b.items)
+= [1]
+? [] || AttributeError
+! 类属性里的可变对象被所有实例共用。
+%%
+class A:
+    def __repr__(self):
+        return 'A!'
+print([A()])
+= [A!]
+? ['A!'] || [<A object>]
+! __repr__ 决定对象在容器里、调试时怎么显示。
+%%
+class A:
+    def hi(self):
+        return 'A'
+class B(A):
+    def hi(self):
+        return 'B' + super().hi()
+print(B().hi())
+= BA
+? B || AB
+! super() 调父类的同名方法。
+%%
+from dataclasses import dataclass
+@dataclass
+class P:
+    x: int
+    y: int = 0
+print(P(1))
+= P(x=1, y=0)
+? <P object> || (1, 0)
+! dataclass 自动生成 __init__ 和 __repr__。
+%%
+from dataclasses import dataclass
+@dataclass
+class P:
+    x: int
+print(P(1) == P(1))
+= True
+? False
+! dataclass 还自动生成按字段比较的 __eq__。
+%%
+class A:
+    pass
+print(A() == A())
+= False
+? True
+! 普通类默认按身份比较,两个实例永不相等。
+%%
+class A:
+    def f():
+        return 1
+A().f()
+= TypeError
+? 1 || None
+! 实例方法第一个参数要留给 self。
+%%
+class A:
+    pass
+class B(A):
+    pass
+print(isinstance(B(), A), type(B()) is A)
+= True False
+? True True || False False
+! isinstance 认继承关系,type 只认本类。
+%%
+class C:
+    def __init__(self):
+        self._v = 2
+    @property
+    def v(self):
+        return self._v * 10
+print(C().v)
+= 20
+? 2 || TypeError
+! property 让方法像属性一样读,不用加括号。
+%%
+class Bag:
+    def __init__(self, n):
+        self.n = n
+    def __len__(self):
+        return self.n
+print(len(Bag(4)), bool(Bag(0)))
+= 4 False
+? 4 True || TypeError
+! 定义了 __len__,长度为 0 的对象就是假值。
+%%
+class A:
+    @classmethod
+    def make(cls):
+        return cls.__name__
+class B(A):
+    pass
+print(B.make())
+= B
+? A || make
+! classmethod 的 cls 是实际调用它的那个类。
+%%
+class A:
+    pass
+a = A()
+a.y = 1
+print(hasattr(a, 'y'), getattr(a, 'z', 0))
+= True 0
+? True AttributeError || False 0
+! 属性可以动态加;getattr 带默认值不会炸。
+%%
+class A:
+    pass
+print(A().x)
+= AttributeError
+? None || NameError
+! 访问不存在的属性。
+%%
+from enum import Enum
+class C(Enum):
+    R = 1
+print(C.R.name, C(1) is C.R)
+= R True
+? 1 True || R False
+! 枚举成员是单例,可按值查回成员。
+%%
+from dataclasses import dataclass
+@dataclass(frozen=True)
+class P:
+    x: int
+p = P(1)
+p.x = 2
+= FrozenInstanceError
+? 正常运行 || TypeError
+! frozen=True 让实例不可改,可以当字典键。
+%%
+class A:
+    def __init__(self, x):
+        self.x = x
+    def __eq__(self, o):
+        return self.x == o.x
+print(A(1) == A(1), A(1) is A(1))
+= True False
+? True True || False False
+! 自定义 __eq__ 改的是 ==,is 永远比身份。
+%%
+from typing import NamedTuple
+class P(NamedTuple):
+    x: int
+    y: int
+p = P(1, 2)
+print(p.x, p[1], p)
+= 1 2 P(x=1, y=2)
+? 1 2 (1, 2) || AttributeError
+! NamedTuple 既能按名字取,也能按下标取。
+
+## exc 异常
+%%
+try:
+    int('x')
+except ValueError:
+    print('bad')
+= bad
+? ValueError || 什么都不输出
+! 捕获后程序继续跑。
+%%
+try:
+    x = 1
+except Exception:
+    print('e', end=' ')
+else:
+    print('else', end=' ')
+finally:
+    print('fin')
+= else fin
+? fin || e fin
+! 没出错走 else;finally 无论如何都走。
+%%
+def f():
+    try:
+        return 1
+    finally:
+        print('F', end=' ')
+print(f())
+= F 1
+? 1 || 1 F
+! return 之前 finally 先执行。
+%%
+def f():
+    try:
+        return 'try'
+    finally:
+        return 'fin'
+print(f())
+= fin
+? try || try fin
+! finally 里的 return 会盖掉前面的;别这么写。
+%%
+try:
+    1 / 0
+except (ValueError, ZeroDivisionError) as e:
+    print(type(e).__name__)
+= ZeroDivisionError
+? ValueError || 什么都不输出
+! 元组可以一次捕获多种异常。
+%%
+try:
+    {}['k']
+except LookupError:
+    print('caught')
+= caught
+? KeyError || 什么都不输出
+! KeyError 和 IndexError 都是 LookupError 的子类。
+%%
+try:
+    raise ValueError('boom')
+except ValueError as e:
+    print(e, e.args)
+= boom ('boom',)
+? ValueError boom || boom boom
+! 异常对象带着你传进去的消息。
+%%
+try:
+    int('x')
+except Exception:
+    print('A')
+except ValueError:
+    print('B')
+= A
+? B || A ⏎ B
+! except 从上往下匹配,宽的写前面会把窄的挡住。
+%%
+assert 1 == 2, 'no'
+= AssertionError
+? 什么都不输出 || ValueError
+! assert 条件为假就抛错;只用于自检,不用于校验输入。
+%%
+class MyErr(Exception):
+    pass
+try:
+    raise MyErr('x')
+except Exception as e:
+    print(type(e).__name__)
+= MyErr
+? Exception || x
+! 自定义异常继承 Exception 即可。
+%%
+x = None
+x.strip()
+= AttributeError
+? TypeError || None
+! 对 None 调方法——最常见的线上报错之一。
+%%
+from contextlib import suppress
+with suppress(KeyError):
+    {}['a']
+print('ok')
+= ok
+? KeyError || 什么都不输出
+! suppress 是"这种错我知道,忽略"的简洁写法。
+%%
+def parse(s):
+    try:
+        return int(s)
+    except ValueError:
+        return None
+print(parse('7'), parse('x'))
+= 7 None
+? 7 ValueError || 7 0
+! 把"可能失败"收在函数里,调用方只看结果。
+%%
+try:
+    [][0]
+except KeyError:
+    print('K')
+except IndexError:
+    print('I')
+= I
+? K || IndexError
+! 列表越界是 IndexError,不是 KeyError。
+%%
+try:
+    raise ValueError('a')
+except ValueError as e:
+    msg = str(e)
+print(msg)
+= a
+? ValueError('a') || NameError
+! str(e) 拿消息文本。
+%%
+try:
+    pass
+except Exception:
+    pass
+print(int(None))
+= TypeError
+? 0 || ValueError
+! int(None) 是类型不对;int('x') 才是值不对。
+
+## io 文件、JSON 与路径
+%%
+import json
+print(json.dumps({'a': [1, None, True]}))
+= {"a": [1, null, true]}
+? {'a': [1, None, True]} || {"a": [1, None, True]}
+! JSON 用双引号、null、true。
+%%
+import json
+print(json.loads('{"a": 1.0}')['a'] + 1)
+= 2.0
+? 2 || TypeError
+! JSON 里的 1.0 读回来是 float。
+%%
+import json
+json.loads("{'a': 1}")
+= JSONDecodeError
+? {'a': 1} || KeyError
+! JSON 不认单引号。
+%%
+import json
+print(len(json.dumps('你')), len(json.dumps('你', ensure_ascii=False)))
+= 8 3
+? 3 3 || 8 8
+! 默认把中文转成 \uXXXX;ensure_ascii=False 保留原字。
+%%
+from pathlib import Path
+p = Path('data/run1/log.txt')
+print(p.name, p.suffix, p.stem, p.parent.name)
+= log.txt .txt log run1
+? log.txt txt log data || log .txt log.txt run1
+! Path 把路径拆成有名字的零件。
+%%
+from pathlib import Path
+print(Path('a') / 'b' / 'c.txt')
+= a/b/c.txt
+? a b c.txt || TypeError
+! Path 用 / 拼路径。
+%%
+import tempfile, os
+p = os.path.join(tempfile.mkdtemp(), 'f.txt')
+with open(p, 'w') as f:
+    f.write('a\nb\n')
+print(open(p).read().splitlines())
+= ['a', 'b']
+? ['a\n', 'b\n'] || ['a', 'b', '']
+! splitlines 去掉行尾换行,也不会多出空串。
+%%
+import tempfile, os
+p = os.path.join(tempfile.mkdtemp(), 'f.txt')
+with open(p, 'w') as f:
+    f.write('a\nb\n')
+with open(p) as f:
+    print([len(line) for line in f])
+= [2, 2]
+? [1, 1] || [4]
+! 逐行读时每行都带着末尾的换行符。
+%%
+import tempfile, os
+p = os.path.join(tempfile.mkdtemp(), 'f.txt')
+open(p, 'w').write('a')
+open(p, 'a').write('b')
+open(p, 'w').write('c')
+print(open(p).read())
+= c
+? abc || ab
+! 'w' 打开即清空;'a' 才是追加。
+%%
+open('/no/such/file.txt')
+= FileNotFoundError
+? None || OSError
+! 读不存在的文件。
+%%
+import json
+print(json.loads(json.dumps({1: 'a'})))
+= {'1': 'a'}
+? {1: 'a'} || TypeError
+! JSON 的键只能是字符串,数字键来回一趟就变了。
+%%
+import json
+json.dumps({'s': {1, 2}})
+= TypeError
+? {"s": [1, 2]} || ValueError
+! 集合不能直接序列化成 JSON,先转 list。
+%%
+import csv, io
+r = csv.DictReader(io.StringIO('a,b\n1,2\n'))
+print(next(r))
+= {'a': '1', 'b': '2'}
+? {'a': 1, 'b': 2} || ['1', '2']
+! csv 读出来全是字符串,数字要自己转。
+%%
+import tempfile, os
+p = os.path.join(tempfile.mkdtemp(), 'f.txt')
+with open(p, 'w') as f:
+    pass
+print(f.closed)
+= True
+? False || NameError
+! 离开 with 块,文件自动关闭。
+%%
+import json
+text = '{"n": 1}\n{"n": 2}'
+print([json.loads(l)['n'] for l in text.splitlines()])
+= [1, 2]
+? [{'n': 1}, {'n': 2}] || JSONDecodeError
+! JSONL:一行一个 JSON,逐行解析。
+%%
+from pathlib import Path
+print(Path('/definitely/not/here').exists())
+= False
+? FileNotFoundError || None
+! exists() 只回答有没有,不抛错。
+%%
+import os
+print(os.path.splitext('a.tar.gz'))
+= ('a.tar', '.gz')
+? ('a', '.tar.gz') || ['a', 'tar', 'gz']
+! 只切最后一个扩展名。
+%%
+import json
+print(json.dumps({'b': 1, 'a': 2}, sort_keys=True))
+= {"a": 2, "b": 1}
+? {"b": 1, "a": 2} || {'a': 2, 'b': 1}
+! sort_keys 让输出稳定,方便比对和做哈希。
+
+## std 标准库
+%%
+from collections import Counter
+c = Counter(['a', 'b', 'a'])
+print(c['a'], c['z'])
+= 2 0
+? 2 KeyError || 2 None
+! Counter 没见过的键返回 0。
+%%
+from collections import deque
+d = deque([1, 2, 3], maxlen=2)
+print(list(d))
+= [2, 3]
+? [1, 2] || [1, 2, 3]
+! 定长队列:满了自动挤掉最旧的。
+%%
+import itertools
+print(list(itertools.chain([1], [2, 3])))
+= [1, 2, 3]
+? [[1], [2, 3]] || [1, [2, 3]]
+! chain 把多个可迭代对象首尾相接。
+%%
+import itertools
+print(len(list(itertools.combinations('abc', 2))), len(list(itertools.permutations('abc', 2))))
+= 3 6
+? 6 6 || 3 3
+! 组合不看顺序,排列看顺序。
+%%
+from datetime import date, timedelta
+print(date(2026, 11, 10) + timedelta(days=30))
+= 2026-12-10
+? 2026-11-40 || 2026-12-11
+! 日期加减用 timedelta,自动进位。
+%%
+from datetime import date
+print((date(2026, 3, 1) - date(2026, 2, 1)).days)
+= 28
+? 30 || 1
+! 两个日期相减得到 timedelta。
+%%
+from datetime import datetime
+print(datetime.strptime('2026-11-10', '%Y-%m-%d').weekday())
+= 1
+? 2 || 10
+! weekday():周一是 0,所以周二是 1。
+%%
+from datetime import date
+print(date(2026, 1, 5).strftime('%m/%d/%y'))
+= 01/05/26
+? 1/5/2026 || 05/01/26
+! strftime 把日期格式化成文本;strptime 反过来。
+%%
+import random
+random.seed(0)
+a = random.random()
+random.seed(0)
+print(a == random.random())
+= True
+? False
+! 固定种子,随机序列可复现——实验可重复的前提。
+%%
+import math
+print(math.floor(-1.5), math.ceil(1.2), math.sqrt(16))
+= -2 2 4.0
+? -1 2 4 || -2 1 4.0
+! floor 往下,ceil 往上;sqrt 返回 float。
+%%
+import re
+print(re.findall(r'\d+', 'a12b3'))
+= ['12', '3']
+? ['1', '2', '3'] || ['a', 'b']
+! \d+ 匹配连续的数字。
+%%
+import re
+print(bool(re.match('b', 'abc')), bool(re.search('b', 'abc')))
+= False True
+? True True || False False
+! match 只从开头匹配;search 找任意位置。
+%%
+import re
+print(re.sub(r'(\w+)@(\w+)', r'\2:\1', 'me@host'))
+= host:me
+? me:host || \2:\1
+! \1 \2 引用括号捕获到的分组。
+%%
+from functools import lru_cache
+n = 0
+@lru_cache
+def f(x):
+    global n
+    n += 1
+    return x
+f(1); f(1); f(2)
+print(n)
+= 2
+? 3 || 1
+! 相同参数第二次直接走缓存,函数体不再执行。
+%%
+import heapq
+print(heapq.nsmallest(2, [5, 1, 4, 2]))
+= [1, 2]
+? [5, 1] || [2, 1]
+! 取前 N 小/大,不用整个排序。
+%%
+import statistics
+print(statistics.mean([1, 2, 3, 6]), statistics.median([1, 2, 3, 6]))
+= 3 2.5
+? 3.0 3 || 3 2
+! 均值受极端值拉动,中位数不会。
+%%
+import hashlib
+print(len(hashlib.sha256(b'x').hexdigest()))
+= 64
+? 256 || 32
+! sha256 是 256 位,十六进制写出来 64 个字符。
+%%
+from decimal import Decimal
+print(Decimal('0.1') + Decimal('0.2') == Decimal('0.3'))
+= True
+? False
+! 金额计算用 Decimal,且从字符串构造。
+%%
+import itertools
+print([k for k, _ in itertools.groupby('aabba')])
+= ['a', 'b', 'a']
+? ['a', 'b'] || ['aa', 'bb', 'a']
+! groupby 只合并相邻的;要全局分组得先排序。
+%%
+import bisect
+print(bisect.bisect_left([1, 3, 5], 3), bisect.bisect_left([1, 3, 5], 4))
+= 1 2
+? 1 1 || 2 2
+! 在有序列表里二分找插入位置。
+%%
+import itertools
+print(list(itertools.islice(itertools.count(5), 3)))
+= [5, 6, 7]
+? [5, 6, 7, 8] || [0, 1, 2]
+! count 是无限序列,islice 切一段出来。
+%%
+from functools import partial
+p = partial(pow, 2)
+print(p(5))
+= 32
+? 25 || 10
+! partial 先钉住一部分参数:pow(2, 5)。
+%%
+import itertools
+print(list(itertools.accumulate([1, 2, 3])))
+= [1, 3, 6]
+? [6] || [1, 2, 3]
+! 累计和;算净值曲线、累计收益的原型。
+%%
+from collections import OrderedDict, namedtuple
+P = namedtuple('P', 'x y')
+print(P(1, 2).x + P(1, 2)[1])
+= 3
+? TypeError || 12
+! namedtuple:带字段名的轻量元组。
+%%
+import time
+t0 = time.perf_counter()
+dt = time.perf_counter() - t0
+print(dt >= 0, type(dt).__name__)
+= True float
+? False float || True int
+! perf_counter 单调递增,专门用来量间隔。
+
+## flow 迭代器、装饰器、上下文
+%%
+def g():
+    yield 1
+    yield 2
+x = g()
+print(next(x), list(x))
+= 1 [2]
+? 1 [1, 2] || [1, 2] []
+! 生成器记得自己走到哪了。
+%%
+def g():
+    print('start', end=' ')
+    yield 1
+x = g()
+print('made', end=' ')
+next(x)
+= made start
+? start made || made
+! 调用生成器函数不执行函数体,第一次 next 才开始。
+%%
+it = iter([])
+next(it)
+= StopIteration
+? None || IndexError
+! 迭代器走完再 next 就抛 StopIteration。
+%%
+print(next(iter([]), 'none'))
+= none
+? StopIteration || None
+! next 的第二个参数是走完时的默认值。
+%%
+def twice(f):
+    def w(*a):
+        return f(*a) * 2
+    return w
+@twice
+def one():
+    return 1
+print(one())
+= 2
+? 1 || 11
+! 装饰器:拿函数进去,换一个包装过的出来。
+%%
+def twice(f):
+    def w(*a):
+        return f(*a) * 2
+    return w
+@twice
+def one():
+    return 1
+print(one.__name__)
+= w
+? one || twice
+! 名字被包装函数顶替了;用 functools.wraps 保住原名。
+%%
+class C:
+    def __enter__(self):
+        print('in', end=' ')
+        return 5
+    def __exit__(self, *a):
+        print('out', end=' ')
+with C() as v:
+    print(v, end=' ')
+= in 5 out
+? 5 in out || in out 5
+! as 拿到的是 __enter__ 的返回值;离开时调 __exit__。
+%%
+from contextlib import contextmanager
+@contextmanager
+def tag():
+    print('<', end='')
+    yield
+    print('>', end='')
+with tag():
+    print('x', end='')
+= <x>
+? x<> || <>x
+! yield 之前是进入,之后是退出。
+%%
+def g():
+    yield from [1, 2]
+    yield 3
+print(list(g()))
+= [1, 2, 3]
+? [[1, 2], 3] || [3]
+! yield from 把另一个可迭代对象逐个转交出去。
+%%
+print(hasattr([], '__iter__'), hasattr(5, '__iter__'))
+= True False
+? True True || False False
+! 能不能 for,看有没有 __iter__。
+%%
+e = enumerate('ab')
+list(e)
+print(list(e))
+= []
+? [(0, 'a'), (1, 'b')] || TypeError
+! enumerate、zip、map 返回的都是一次性迭代器。
+%%
+d = {'a': 1}
+k = d.keys()
+d['b'] = 2
+print(len(k))
+= 2
+? 1 || RuntimeError
+! keys() 是活的视图,跟着字典变。
+%%
+import functools
+def deco(f):
+    @functools.wraps(f)
+    def w(*a, **k):
+        return f(*a, **k)
+    return w
+@deco
+def hello():
+    return 'hi'
+print(hello.__name__, hello())
+= hello hi
+? w hi || deco hi
+! wraps 把原函数的名字和文档抄到包装函数上。
+%%
+def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+print(sum(countdown(4)))
+= 10
+? 4 || 6
+! 4+3+2+1;生成器按需产出,不占列表的内存。
+
+## mod 标注、异步与现代语法
+%%
+import asyncio
+async def f():
+    return 7
+print(asyncio.run(f()))
+= 7
+? <coroutine> || None
+! asyncio.run 启动事件循环并跑完协程。
+%%
+import asyncio
+async def w(n, d):
+    await asyncio.sleep(d)
+    return n
+async def main():
+    return await asyncio.gather(w('a', .02), w('b', .01))
+print(asyncio.run(main()))
+= ['a', 'b']
+? ['b', 'a'] || ('a', 'b')
+! gather 的结果按传入顺序,不按完成先后。
+%%
+import asyncio, time
+async def main():
+    t = time.perf_counter()
+    await asyncio.gather(asyncio.sleep(.05), asyncio.sleep(.05))
+    return time.perf_counter() - t < .09
+print(asyncio.run(main()))
+= True
+? False
+! 两个等待并发进行,总耗时约等于最长的那个。
+%%
+x: int = 'a'
+print(type(x).__name__)
+= str
+? int || TypeError
+! 标注不会在运行时拦你;查类型靠 mypy/pyright。
+%%
+from typing import Optional
+def f(x: Optional[int] = None):
+    return x or -1
+print(f(), f(0), f(5))
+= -1 -1 5
+? -1 0 5 || None 0 5
+! x or 默认值 会吞掉 0;应写 x if x is not None else -1。
+%%
+print(__name__)
+= __main__
+? None || __name__
+! 直接运行的脚本名字是 __main__,被 import 时是模块名。
+%%
+print({**{'a': 1}, 'a': 2})
+= {'a': 2}
+? {'a': 1} || SyntaxError
+! ** 展开字典,后写的覆盖先写的。
+%%
+print(*[1, 2, 3], sep='-')
+= 1-2-3
+? [1, 2, 3] || 1 2 3
+! * 把列表拆成多个位置参数。
+%%
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor() as ex:
+    print(list(ex.map(lambda x: x * x, [1, 2, 3])))
+= [1, 4, 9]
+? [9, 4, 1] || 14
+! 线程池的 map 结果保持输入顺序。
+%%
+def f(xs: list[int]) -> dict[str, int]:
+    return {'n': len(xs)}
+print(f([1, 2]))
+= {'n': 2}
+? TypeError || {'n': [1, 2]}
+! 内置容器可以直接带方括号写标注。
+%%
+a = [1, 2, 3]
+first, *_, last = a
+print(first, last)
+= 1 3
+? 1 2 || 1 [2, 3]
+! 用 _ 接住不关心的部分。
+%%
+def greet(name, *, loud=False):
+    return name.upper() if loud else name
+print(greet('ada', loud=True))
+= ADA
+? ada || TypeError
+! 开关类参数强制写名字,调用处一眼看得懂。
+%%
+import sys
+print(type(sys.argv).__name__, sys.version_info >= (3, 10))
+= list True
+? tuple True || str False
+! 命令行参数在 sys.argv 里,是字符串列表。
+%%
+nums = [3, 1, 2]
+print(f'{max(nums)=}', f'{len(nums):>3}|')
+= max(nums)=3   3|
+? max(nums)=3 3| || 3   3|
+! f-string 里可以放任意表达式和对齐格式。
+
+## np NumPy
+%%
+import numpy as np
+a = np.array([1, 2, 3])
+print((a * 2).tolist(), [1, 2, 3] * 2)
+= [2, 4, 6] [1, 2, 3, 1, 2, 3]
+? [2, 4, 6] [2, 4, 6] || [1, 2, 3, 1, 2, 3] [1, 2, 3, 1, 2, 3]
+! 数组乘法是逐元素;列表乘法是重复。
+%%
+import numpy as np
+a = np.arange(6).reshape(2, 3)
+print(a.shape, a.sum(axis=0).tolist())
+= (2, 3) [3, 5, 7]
+? (2, 3) [3, 12] || (3, 2) [3, 5, 7]
+! axis=0 沿着行方向压扁,得到每列的和。
+%%
+import numpy as np
+a = np.arange(6).reshape(2, 3)
+print(a.sum(axis=1).tolist())
+= [3, 12]
+? [3, 5, 7] || 15
+! axis=1 压掉列,得到每行的和。
+%%
+import numpy as np
+a = np.array([1, 5, 3])
+print(a[a > 2].tolist())
+= [5, 3]
+? [False, True, True] || [1]
+! 布尔数组当下标,就是筛选。
+%%
+import numpy as np
+a = np.arange(4)
+b = a[:2]
+b[0] = 9
+print(a.tolist())
+= [9, 1, 2, 3]
+? [0, 1, 2, 3] || [9, 1]
+! NumPy 切片是视图不是副本;要副本用 .copy()。
+%%
+import numpy as np
+print(np.array([1, 2]).dtype, np.array([1, 2.0]).dtype)
+= int64 float64
+? int64 int64 || float64 float64
+! 数组只有一种类型,混了就向上提升。
+%%
+import numpy as np
+print((np.array([[1], [2]]) + np.array([10, 20])).tolist())
+= [[11, 21], [12, 22]]
+? [[11], [22]] || ValueError
+! 广播:形状 (2,1) 和 (2,) 自动撑成 (2,2)。
+%%
+import numpy as np
+print(np.mean([1, 2, 3, 4]), np.array([1, 9, 3]).argmax())
+= 2.5 1
+? 2.5 9 || 2 1
+! argmax 给的是位置,不是值。
+%%
+import numpy as np
+print(np.nan == np.nan, np.isnan(np.nan))
+= False True
+? True True || False False
+! NaN 不等于任何东西,包括它自己;用 isnan 判断。
+%%
+import numpy as np
+p = np.array([100., 110., 121.])
+print(np.round(p[1:] / p[:-1] - 1, 2).tolist())
+= [0.1, 0.1]
+? [10.0, 11.0] || [0.1, 0.1, 0.1]
+! 错位相除减一:收益率的最短写法。
+%%
+import numpy as np
+print(np.where(np.array([1, -2, 3]) > 0, 1, 0).tolist())
+= [1, 0, 1]
+? [0, 2] || [1, -2, 3]
+! where(条件, 真时取, 假时取):向量化的 if/else。
+%%
+import numpy as np
+print(np.cumsum([1, 2, 3]).tolist(), np.linspace(0, 1, 5).tolist())
+= [1, 3, 6] [0.0, 0.25, 0.5, 0.75, 1.0]
+? [6] [0.0, 0.2, 0.4, 0.6, 0.8] || [1, 3, 6] [0.0, 0.25, 0.5, 0.75]
+! linspace 含两端,指定的是点数。
+%%
+import numpy as np
+a = np.array([[1, 2], [3, 4]])
+print(a.T.tolist(), a[:, 0].tolist())
+= [[1, 3], [2, 4]] [1, 3]
+? [[1, 2], [3, 4]] [1, 2] || [[1, 3], [2, 4]] [1, 2]
+! .T 转置;[:, 0] 取第一列。
+%%
+import numpy as np
+a = np.array([1, 2, 3])
+print(a.mean(), a.std().round(3))
+= 2.0 0.816
+? 2.0 1.0 || 2 0.816
+! NumPy 的 std 默认是总体标准差(ddof=0)。
+
+## pd pandas
+%%
+import pandas as pd
+s = pd.Series([1, 2, 3])
+print(s.mean(), s.shift(1).isna().sum())
+= 2.0 1
+? 2.0 0 || 2 1
+! shift(1) 整体下移一格,第一格变成 NaN。
+%%
+import pandas as pd
+df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+print(df.shape, df['a'].sum())
+= (3, 2) 6
+? (2, 3) 6 || (3, 2) 15
+! shape 是(行, 列)。
+%%
+import pandas as pd
+df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+print(df[df.a > 1]['b'].tolist())
+= [5, 6]
+? [4, 5, 6] || [2, 3]
+! 布尔条件筛行,再取列。
+%%
+import pandas as pd
+df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+print(df.loc[0, 'b'], df.iloc[-1, 0])
+= 4 3
+? 4 6 || 1 3
+! loc 按标签,iloc 按位置。
+%%
+import pandas as pd
+df = pd.DataFrame({'k': ['x', 'y', 'x'], 'v': [1, 2, 3]})
+print(df.groupby('k')['v'].sum().to_dict())
+= {'x': 4, 'y': 2}
+? {'x': 1, 'y': 2} || {'x': 3, 'y': 2}
+! groupby:分组、取列、聚合。
+%%
+import pandas as pd
+print(pd.Series([100, 110, 121]).pct_change().round(2).tolist())
+= [nan, 0.1, 0.1]
+? [0.1, 0.1] || [0.0, 0.1, 0.1]
+! 第一个没有前值,是 NaN。
+%%
+import pandas as pd
+print(pd.Series([1, 2, 3, 4]).rolling(2).mean().tolist())
+= [nan, 1.5, 2.5, 3.5]
+? [1.5, 2.5, 3.5] || [1.0, 1.5, 2.5, 3.5]
+! 窗口没凑满时给 NaN。
+%%
+import pandas as pd
+s = pd.Series([1, None, 3])
+print(len(s.dropna()), s.fillna(0).sum())
+= 2 4.0
+? 3 4.0 || 2 4
+! dropna 丢掉缺失;fillna 补上。有过缺失的列是 float。
+%%
+import pandas as pd
+a = pd.DataFrame({'k': [1, 2]})
+b = pd.DataFrame({'k': [2, 3]})
+print(len(a.merge(b)), len(a.merge(b, how='outer')))
+= 1 3
+? 2 3 || 1 4
+! 默认内连接只留两边都有的键。
+%%
+import pandas as pd
+df = pd.DataFrame({'k': ['x', 'y', 'z'], 'v': [2, 3, 1]})
+print(df.sort_values('v', ascending=False)['k'].tolist())
+= ['y', 'x', 'z']
+? ['z', 'x', 'y'] || ['x', 'y', 'z']
+! 按某列排序;ascending=False 倒序。
+%%
+import pandas as pd
+df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+df['c'] = df.a * df.b
+print(df.c.tolist())
+= [4, 10, 18]
+? [32] || [5, 7, 9]
+! 列与列逐行运算,直接赋成新列。
+%%
+import pandas as pd
+print(pd.Series(list('aab')).value_counts().to_dict())
+= {'a': 2, 'b': 1}
+? {'a': 1, 'b': 1} || ['a', 'b']
+! value_counts:每个值出现几次,从多到少。
+%%
+import pandas as pd
+print((1 + pd.Series([.1, .1])).cumprod().round(2).tolist())
+= [1.1, 1.21]
+? [1.1, 1.2] || [0.1, 0.01]
+! (1+收益率) 连乘就是净值曲线。
+%%
+import pandas as pd
+print(pd.to_datetime('2026-11-10').day_name())
+= Tuesday
+? Monday || 10
+! to_datetime 把文本变成时间戳,之后能做日期运算。
+%%
+import pandas as pd
+df = pd.DataFrame({'a': [1, 2, 3]})
+sub = df[df.a > 1].copy()
+sub['a'] = 0
+print(df.a.tolist())
+= [1, 2, 3]
+? [1, 0, 0] || [0, 0, 0]
+! 筛出来要改就先 .copy(),原表不受影响。
+%%
+import pandas as pd
+df = pd.DataFrame({'a': [3, 1, 2]})
+print(df.a.rank().tolist(), df.a.idxmax())
+= [3.0, 1.0, 2.0] 0
+? [1.0, 2.0, 3.0] 0 || [3.0, 1.0, 2.0] 3
+! rank 给名次;idxmax 给最大值所在的行标签。

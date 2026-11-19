@@ -1,0 +1,12 @@
+{
+  "name": "蟒行记 · 夜里学 Python",
+  "short_name": "蟒行记",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#14110e",
+  "theme_color": "#14110e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
