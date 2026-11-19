@@ -1,0 +1,58 @@
+[
+ {
+  "file": "ddj.json",
+  "book": "道德经",
+  "book_en": "Tao Te Ching",
+  "sections": 81,
+  "chinese_characters": 6446,
+  "english": "James Legge (1891)"
+ },
+ {
+  "file": "sunzi.json",
+  "book": "孙子兵法",
+  "book_en": "The Art of War",
+  "sections": 13,
+  "chinese_characters": 7382,
+  "english": "Lionel Giles (1910)"
+ },
+ {
+  "file": "shj.json",
+  "book": "山海经",
+  "book_en": "Shan Hai Jing",
+  "sections": 18,
+  "chinese_characters": 37802,
+  "english": "—"
+ },
+ {
+  "file": "nj.json",
+  "book": "黄帝内经",
+  "book_en": "Huangdi Neijing",
+  "sections": 162,
+  "chinese_characters": 187167,
+  "english": "—"
+ },
+ {
+  "file": "zz.json",
+  "book": "庄子",
+  "book_en": "Zhuangzi",
+  "sections": 33,
+  "chinese_characters": 80180,
+  "english": "James Legge (1891)"
+ },
+ {
+  "file": "yi.json",
+  "book": "周易",
+  "book_en": "I Ching",
+  "sections": 69,
+  "chinese_characters": 29799,
+  "english": "—"
+ },
+ {
+  "file": "sj.json",
+  "book": "史记（选七篇）",
+  "book_en": "Shiji (seven chapters)",
+  "sections": 7,
+  "chinese_characters": 50153,
+  "english": "—"
+ }
+]

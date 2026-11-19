@@ -4,7 +4,7 @@
 
 **[▶ 在线玩](https://lyrapower.github.io/Lyrapower/mangxingji/)** · 手机、电脑都能玩 · 打开一次之后，断网也能玩（飞机上照样刷）· 手机上可以「添加到主屏幕」，像 App 一样打开 · 不用注册，进度存在你自己的设备上
 
-<p align="center"><img src="docs/desktop_play.jpg" width="760" alt="第三夜：雪山夜景里的小蟒蛇，头顶挂着待点亮的灯笼"></p>
+<p align="center"><a href="https://lyrapower.github.io/Lyrapower/mangxingji/"><img src="docs/hero.webp" width="300" alt="23 秒：开场、第一夜「暮野」里小蟒蛇赶路收萤火，然后上滑刷代码卡"></a></p>
 
 ```
 git clone https://github.com/Lyrapower/Lyrapower && cd Lyrapower/works/mangxingji
@@ -24,6 +24,18 @@ open dist/index.html        # Windows: start dist\index.html
 | 刷卡（手机） | 关卡里的题 |
 | --- | --- |
 | <img src="docs/phone_reel.jpg" width="260" alt="一张代码卡片：a = [1, 2]; b = a; b.append(3); print(a)，答案 [1, 2, 3]"> | <img src="docs/desktop_quiz.jpg" width="520" alt="找 bug 题：一段解析 JSON 的循环，点出有问题的那一行"> |
+
+## 30 天路线：每天 5 分钟，大约 11 张卡
+
+新卡大致按下面的顺序出现，旧卡按遗忘曲线穿插回来。不用记进度，打开就刷。
+
+| 时间 | 刷到的主题 | 卡数 | 想玩久一点 |
+| --- | --- | ---: | --- |
+| 第 1 周 | 变量与引用 · 数字与运算 · 字符串 · 列表 · 切片 · 字典 | 109 | 第一夜：引用、不可变与文本清洗 |
+| 第 2 周 | 集合与元组 · 条件与真值 · 循环 · 推导式与生成器 · 函数 | 82 | 第二夜：容器、查找复杂度与集合运算 |
+| 第 3 周 | 类与对象 · 异常 · 文件、JSON 与路径 · 标准库 | 78 | 第三夜：文件、异常与评测指标；第四夜：正则表达式 |
+| 第 4 周 | 迭代器、装饰器、上下文 · 类型标注与异步 · NumPy · pandas | 58 | 第五夜：脚本工程化；第六夜：红队评测与攻击成功率 |
+| 第 30 天 | 327 张全见过一遍，记不牢的那些还会回来 | 327 | 六夜通关 |
 
 ## 里面有什么
 

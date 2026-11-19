@@ -4,6 +4,16 @@
 
 **[▶ 在线打开](https://lyrapower.github.io/Lyrapower/earth-online-guide/)** · 手机上最好看 · 不用注册，阅读进度只存在你自己的设备上
 
+<p align="center"><a href="https://lyrapower.github.io/Lyrapower/earth-online-guide/"><img src="docs/hero.webp" width="300" alt="17 秒：首页、道德经（老子骑青牛）、第八章「上善若水」、庄周梦蝶、问道德经、山海经"></a></p>
+
+你有没有想过：
+
+- 「上善若水」后面那半句是什么？Legge 1891 年怎么把它译成英文？
+- 同事总抢功，《道德经》会怎么说？哪一章、原话是哪一句？
+- 睡前想听一章《孙子兵法》，配着雨声，30 分钟后自己停？
+
+**直接试** · [道德经 · 上善若水](https://lyrapower.github.io/Lyrapower/earth-online-guide/#/b/ddj/8) · [庄子 · 庄周梦蝶](https://lyrapower.github.io/Lyrapower/earth-online-guide/#/b/zz/2) · [孙子 · 知彼知己](https://lyrapower.github.io/Lyrapower/earth-online-guide/#/b/sunzi/3) · [史记 · 货殖列传](https://lyrapower.github.io/Lyrapower/earth-online-guide/#/b/sj/1) · [周易 · 乾卦](https://lyrapower.github.io/Lyrapower/earth-online-guide/#/b/yi/1) · [山海经 · 招摇之山](https://lyrapower.github.io/Lyrapower/earth-online-guide/#/b/shj/1)
+
 <p align="center">
 <img src="docs/home.jpg" width="190" alt="首页：玩家指南，七本攻略">
 <img src="docs/ddj_zone.jpg" width="190" alt="道德经：老子骑青牛，西出函谷">
@@ -29,6 +39,10 @@
 - 夜墨 / 宣纸两种纸色，字号可调，记住读到哪里，减少动效的设置会被尊重。
 
 <p align="center"><img src="docs/ask.jpg" width="260" alt="问道德经：同事总抢功，我该争吗？下面列出原文段落并标出章节"></p>
+
+## 文本数据可以直接拿去用
+
+七部书逐字校勘过的原文（约 40 万字，含 Legge、Giles 英译），整理成了 JSON，放在 [`data/`](data/)，以 CC0 发布。拿去做阅读器、检索、语料、出题都行。
 
 ## 自己运行
 
