@@ -52,6 +52,8 @@ open dist/index.html        # Windows: start dist\index.html
 
 ## 开发
 
+想知道它是怎么做出来的（为什么一个文件、遗忘曲线怎么排、327 张卡的答案怎么用 Python 自动核对），看 [制作过程：一个 234 KB 的 Python 游戏是怎么做出来的](docs/making-of.md)。
+
 源文件在 `src/`，`python3 build.py .` 把它们合成 `dist/index.html`，没有其他依赖。
 
 ```
